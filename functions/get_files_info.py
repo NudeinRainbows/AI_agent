@@ -1,4 +1,5 @@
 import os
+from .. import config
 
 def get_files_info(working_directory: str, directory: str = ".") -> str:
     abs_path = os.path.abspath(working_directory)
@@ -16,12 +17,14 @@ def get_files_info(working_directory: str, directory: str = ".") -> str:
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
 
     try:
-        if not os.path.isdir(directory):
+        if not os.path.isdir(target_dir):
             return f'Error: "{directory}" is not a directory'
     except:
         return f"Error: could not verify {target_dir} exists"
 
     if valid_target_dir:
-        return f'Success: "{directory}" is within the working directory'
+        with os.scandir(target_dir) as entries:
+            for entry in entries:
+                if not entry is None:
+                    print(f" - {entry.name}: file_size={entry.stat().st_size} bytes, is_dir={entry.is_dir()}")
 
-    return "no valid path walked"
