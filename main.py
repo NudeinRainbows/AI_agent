@@ -39,7 +39,6 @@ def main():
             config=types.GenerateContentConfig(
                 tools=[available_functions],
                 system_instruction=system_prompt,
-                temperature=0,
                 )
         )
 

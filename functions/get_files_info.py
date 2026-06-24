@@ -23,10 +23,13 @@ def get_files_info(working_directory: str, directory: str = ".") -> str:
     if not os.path.isdir(result):
         return f'Error: "{result}" is not a directory'
 
+    lines = []
     with os.scandir(result) as entries:
         for entry in entries:
             if not entry is None:
-                print(f" - {entry.name}: file_size={entry.stat().st_size} bytes, is_dir={entry.is_dir()}")
+                lines.append(
+                    f" - {entry.name}: file_size={entry.stat().st_size} bytes, is_dir={entry.is_dir()}"
+                )
 
-    return ""
+    return "\n".join(lines)
 
